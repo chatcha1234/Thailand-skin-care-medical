@@ -13,6 +13,20 @@ export default function ContactPage() {
             consultation coordination, and treatment trip planning.
           </p>
         </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Card className="space-y-2 bg-[#fbfbfc] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Step 1</p>
+            <p className="text-sm font-medium text-slate-950">Share your concern</p>
+          </Card>
+          <Card className="space-y-2 bg-[#fbfbfc] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Step 2</p>
+            <p className="text-sm font-medium text-slate-950">Get preliminary guidance</p>
+          </Card>
+          <Card className="space-y-2 bg-[#fbfbfc] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Step 3</p>
+            <p className="text-sm font-medium text-slate-950">Plan your treatment trip</p>
+          </Card>
+        </div>
         <Card className="space-y-4 bg-[#fbfbfc]">
           <h2 className="text-2xl font-semibold">What to prepare</h2>
           <ul className="space-y-3 text-sm leading-7 text-slate-600">

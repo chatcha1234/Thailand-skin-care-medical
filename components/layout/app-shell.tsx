@@ -16,13 +16,16 @@ export function AppShell({ children }: { children: ReactNode }) {
               Thailand SkinCare Medical Tourism Platform
             </span>
           </Link>
-          <nav className="flex flex-wrap items-center gap-5 text-sm text-slate-500">
+          <nav className="flex max-w-full flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="transition hover:text-slate-950">
                 {link.label}
               </Link>
             ))}
           </nav>
+          <Button href="/contact" className="px-4 py-2.5">
+            Book Consultation
+          </Button>
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-6 py-12">{children}</main>
