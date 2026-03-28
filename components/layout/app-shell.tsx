@@ -23,9 +23,6 @@ export function AppShell({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <Button href="/contact" className="px-4 py-2.5">
-            Book Consultation
-          </Button>
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-6 py-12">{children}</main>
