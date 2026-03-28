@@ -32,10 +32,10 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap gap-4">
             <Button href="/contact">Book Online Consultation</Button>
-            <Button href="/how-it-works" className="bg-white text-slate-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50">
+            <Button href="/how-it-works" variant="secondary">
               Get Treatment Plan
             </Button>
-            <Button href="/contact" className="bg-transparent text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-white">
+            <Button href="/contact" variant="ghost">
               Chat on WhatsApp / LINE
             </Button>
           </div>
@@ -97,7 +97,7 @@ export default function HomePage() {
             The platform is built to move patients from first inquiry to consultation, travel planning, treatment, and aftercare
             without making them guess the next step.
           </p>
-          <Button href="/how-it-works" className="w-fit bg-white text-slate-950 hover:bg-slate-100">
+          <Button href="/how-it-works" className="w-fit" variant="secondary">
             View the full journey
           </Button>
         </Card>
@@ -244,7 +244,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap gap-4">
             <Button href="/contact">Book Your Online Consultation</Button>
-            <Button href="/packages" className="bg-white text-slate-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50">
+            <Button href="/packages" variant="secondary">
               View Packages
             </Button>
           </div>
