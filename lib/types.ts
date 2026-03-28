@@ -61,3 +61,47 @@ export type SkinPreAssessment = {
   summary: string;
   disclaimer: string;
 };
+
+export type LeadIntelligence = {
+  lead_score: number;
+  priority_label: "low" | "medium" | "high";
+  conversion_summary: string;
+  staff_summary: string;
+  follow_up_reasons: string[];
+};
+
+export const leadStatusOptions = ["new", "contacted", "qualified", "closed"] as const;
+
+export type LeadStatus = (typeof leadStatusOptions)[number];
+
+export type InternationalLeadRecord = {
+  id: string;
+  created_at: string;
+  full_name: string;
+  country: string;
+  concern: string;
+  preferred_travel_month: string;
+  budget_range: string;
+  email: string;
+  whatsapp: string;
+  preferred_city: string;
+  notes: string;
+  photo_url: string;
+  ai_primary_concern: string;
+  ai_confidence_score: number;
+  ai_photo_quality_status: string;
+  ai_photo_quality_feedback: string;
+  ai_recommended_treatments: string;
+  ai_summary: string;
+  ai_disclaimer: string;
+  ai_lead_score: number;
+  ai_priority_label: "low" | "medium" | "high";
+  ai_conversion_summary: string;
+  ai_staff_summary: string;
+  ai_follow_up_reasons: string;
+  lead_status: LeadStatus;
+  staff_notes: string;
+  assigned_to: string;
+  next_action_at: string | null;
+  contacted_at: string | null;
+};

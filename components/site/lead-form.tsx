@@ -33,6 +33,7 @@ const treatmentCities = ["Bangkok", "Phuket", "Chiang Mai", "Pattaya", "Need rec
 export function LeadForm() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [aiMode, setAiMode] = useState<"mock" | "real" | null>(null);
   const [assessment, setAssessment] = useState<null | {
     primary_concern: string;
     confidence_score: number;
@@ -47,6 +48,7 @@ export function LeadForm() {
     setSubmitting(true);
     setStatus(null);
     setAssessment(null);
+    setAiMode(null);
 
     try {
       const response = await fetch("/api/leads", {
@@ -65,6 +67,7 @@ export function LeadForm() {
         message: "Your consultation request has been received. Our team will contact you shortly."
       });
       setAssessment(payload.assessment ?? null);
+      setAiMode(payload.ai_mode ?? null);
     } catch (error) {
       setStatus({
         type: "error",
@@ -221,7 +224,14 @@ export function LeadForm() {
           ) : null}
           {assessment ? (
             <div className="rounded-3xl border border-slate-200 bg-[#fbfbfc] p-5 text-sm text-slate-700">
-              <p className="font-semibold text-slate-950">AI pre-screening result</p>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="font-semibold text-slate-950">AI pre-screening result</p>
+                {aiMode ? (
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                    {aiMode} mode
+                  </span>
+                ) : null}
+              </div>
               <p className="mt-2">Primary concern: {assessment.primary_concern}</p>
               <p>Confidence: {assessment.confidence_score}/100</p>
               <p>Photo review: {assessment.photo_quality_status}</p>

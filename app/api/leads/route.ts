@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getServerEnv } from "@/lib/env";
-import { evaluateSkinPreAssessment } from "@/lib/openai";
+import { evaluateLeadIntelligence, evaluateSkinPreAssessment } from "@/lib/openai";
 import { createServerSupabaseClient } from "@/lib/supabase";
+import type { LeadStatus } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,31 @@ export async function POST(request: Request) {
 
     const photoFile = formData.get("photo");
 
-    const lead = {
+    const lead: {
+      full_name: string;
+      country: string;
+      concern: string;
+      preferred_travel_month: string;
+      budget_range: string;
+      email: string;
+      whatsapp: string;
+      preferred_city: string;
+      notes: string;
+      photo_url: string;
+      ai_primary_concern: string;
+      ai_confidence_score: number;
+      ai_photo_quality_status: string;
+      ai_photo_quality_feedback: string;
+      ai_recommended_treatments: string;
+      ai_summary: string;
+      ai_disclaimer: string;
+      ai_lead_score: number;
+      ai_priority_label: "low" | "medium" | "high";
+      ai_conversion_summary: string;
+      ai_staff_summary: string;
+      ai_follow_up_reasons: string;
+      lead_status?: LeadStatus;
+    } = {
       full_name: getField("full_name"),
       country: getField("country"),
       concern: getField("concern"),
@@ -34,7 +59,12 @@ export async function POST(request: Request) {
       ai_photo_quality_feedback: "",
       ai_recommended_treatments: "",
       ai_summary: "",
-      ai_disclaimer: ""
+      ai_disclaimer: "",
+      ai_lead_score: 0,
+      ai_priority_label: "low",
+      ai_conversion_summary: "",
+      ai_staff_summary: "",
+      ai_follow_up_reasons: ""
     };
 
     if (!lead.full_name || !lead.country || !lead.concern || !lead.preferred_travel_month || !lead.budget_range || !lead.email) {
@@ -69,13 +99,41 @@ export async function POST(request: Request) {
       lead.ai_disclaimer = assessment.disclaimer;
     }
 
+    const leadIntelligence = await evaluateLeadIntelligence({
+      full_name: lead.full_name,
+      country: lead.country,
+      concern: lead.concern,
+      preferred_travel_month: lead.preferred_travel_month,
+      budget_range: lead.budget_range,
+      email: lead.email,
+      whatsapp: lead.whatsapp,
+      preferred_city: lead.preferred_city,
+      notes: lead.notes,
+      ai_primary_concern: lead.ai_primary_concern,
+      ai_confidence_score: lead.ai_confidence_score,
+      ai_photo_quality_status: lead.ai_photo_quality_status,
+      ai_recommended_treatments: lead.ai_recommended_treatments
+        ? lead.ai_recommended_treatments
+            .split("|")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : [],
+      ai_summary: lead.ai_summary
+    });
+
+    lead.ai_lead_score = leadIntelligence.lead_score;
+    lead.ai_priority_label = leadIntelligence.priority_label;
+    lead.ai_conversion_summary = leadIntelligence.conversion_summary;
+    lead.ai_staff_summary = leadIntelligence.staff_summary;
+    lead.ai_follow_up_reasons = leadIntelligence.follow_up_reasons.join(" | ");
+
     const { error } = await supabase.from("international_leads").insert(lead);
 
     if (error) {
       throw new Error(error.message);
     }
 
-    return NextResponse.json({ success: true, assessment });
+    return NextResponse.json({ success: true, assessment, lead_intelligence: leadIntelligence, ai_mode: env.aiMode });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Unable to save your consultation request." },

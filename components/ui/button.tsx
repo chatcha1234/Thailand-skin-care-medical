@@ -8,6 +8,7 @@ type ButtonProps = {
   className?: string;
   disabled?: boolean;
   variant?: "primary" | "secondary" | "ghost";
+  onClick?: () => void;
 };
 
 const baseClassName =
@@ -25,7 +26,8 @@ export function Button({
   type = "button",
   className = "",
   disabled,
-  variant = "primary"
+  variant = "primary",
+  onClick
 }: ButtonProps) {
   const resolvedClassName = `${baseClassName} ${variantClassNames[variant]} ${className}`.trim();
 
@@ -38,7 +40,7 @@ export function Button({
   }
 
   return (
-    <button type={type} className={resolvedClassName} disabled={disabled}>
+    <button type={type} className={resolvedClassName} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   );

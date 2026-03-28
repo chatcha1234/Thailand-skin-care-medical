@@ -5,7 +5,8 @@ export const navLinks = [
   { href: "/doctors-clinics", label: "Doctors & Clinics" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/international-patients", label: "International Patients" },
-  { href: "/faq", label: "FAQ" }
+  { href: "/faq", label: "FAQ" },
+  { href: "/dashboard/leads", label: "Lead Dashboard" }
 ];
 
 export const featuredConcerns = [
